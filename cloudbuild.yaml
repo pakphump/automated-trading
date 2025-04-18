@@ -9,14 +9,8 @@ steps:
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
     args: ['functions', 'deploy', 'my-fastapi-function',
-           '--region', 'us-central1',
-           '--trigger-http',
-           '--allow-unauthenticated',
            '--entry-point', 'app',
            '--runtime', 'python310',
-           '--memory', '256MB',
-           '--timeout', '540s',
-           '--source', 'container'
            ]
 
 images:
