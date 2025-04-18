@@ -9,6 +9,7 @@ steps:
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
     args: ['functions', 'deploy', 'my-fastapi-function',
+           '--trigger-http',
            '--entry-point', 'app',
            '--runtime', 'python310',
            ]
