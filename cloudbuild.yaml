@@ -16,8 +16,8 @@ steps:
            '--runtime', 'python310',
            '--memory', '256MB',
            '--timeout', '540s',
-           '--source', 'container',
-           '--image', 'gcr.io/$PROJECT_ID/my-fastapi-function:$COMMIT_SHA']
+           '--source', 'container'
+           ]
 
 images:
   - 'gcr.io/$PROJECT_ID/my-fastapi-function:$COMMIT_SHA'
