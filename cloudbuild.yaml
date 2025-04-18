@@ -1,2 +1,26 @@
+steps:
+  # Docker Build
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/my-fastapi-function:$COMMIT_SHA', '.']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/my-fastapi-function:$COMMIT_SHA']
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args: ['functions', 'deploy', 'my-fastapi-function',
+           '--region', 'us-central1',
+           '--trigger-http',
+           '--allow-unauthenticated',
+           '--entry-point', 'app',
+           '--runtime', 'python310',
+           '--memory', '256MB',
+           '--timeout', '540s',
+           '--source', 'container',
+           '--image', 'gcr.io/$PROJECT_ID/my-fastapi-function:$COMMIT_SHA']
+
+images:
+  - 'gcr.io/$PROJECT_ID/my-fastapi-function:$COMMIT_SHA'
+
 options:
   logging: CLOUD_LOGGING_ONLY
