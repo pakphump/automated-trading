@@ -11,8 +11,7 @@ steps:
     args: ['functions', 'deploy', 'my-fastapi-function',
            '--trigger-http',
            '--runtime', 'python39',
-           '--entry-point','app',
-           '--source', 'app.py'
+           '--entry-point','main',
            ]
 
 images:
