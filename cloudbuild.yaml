@@ -10,8 +10,8 @@ steps:
     entrypoint: 'gcloud'
     args: ['functions', 'deploy', 'my-fastapi-function',
            '--trigger-http',
-           '--entry-point', 'app',
            '--runtime', 'python310',
+           '--source', 'container'
            ]
 
 images:
