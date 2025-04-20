@@ -11,7 +11,7 @@ steps:
       - --allow-unauthenticated
       - --region=europe-central2
       - --vpc-connector=vpceuropeconnector
-      - --egress-settings all
+      - --egress-settings=all
 
 options:
   logging: CLOUD_LOGGING_ONLY
