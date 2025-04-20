@@ -12,6 +12,11 @@ class GetContinuousKlines(BaseModel):
     url: str = f"{BINANCE_FUTURE_BASE_URL}/fapi/v1/continuousKlines"
 
 
+class GetCurrentPositionMode(BaseModel):
+    method: str = "GET"
+    url: str = f"{BINANCE_FUTURE_BASE_URL}/fapi/v1/positionSide/dual"
+
+
 class PostOrder(BaseModel):
     method: str = "POST"
     url: str = f"{BINANCE_FUTURE_BASE_URL}/fapi/v1/order"

@@ -12,6 +12,13 @@ class GetContinuousKlinesRequest(BaseModel):
     limit: Optional[int] = 500
 
 
+class GetCurrentPositionModeRequest(BaseModel):
+    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
+
+    recv_window: int = 5000
+    timestamp: int
+
+
 class PostOrderRequest(BaseModel):
     model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
 
