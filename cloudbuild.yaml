@@ -10,7 +10,7 @@ steps:
       - --runtime=python39
       - --allow-unauthenticated
       - --region=asia-east1
-      - --vpc-connector=vpc-connector
+      - --vpc-connector=asia-east1-vpc-connector
 
 options:
   logging: CLOUD_LOGGING_ONLY
