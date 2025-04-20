@@ -1,5 +1,15 @@
-def start_cdc_trading(request):
-    request_json = request.get_json()
+from automated_trading import AutomatedTrading
+from automated_trading.models import CdcStrategyHandlerRequest
+from datetime import datetime
 
-    print(request_json)
-    return {"message": "Hello, World!", "name": "str"}
+automated_trading = AutomatedTrading()
+
+
+def cdc_strategy_handler(request: dict):
+    request_model = CdcStrategyHandlerRequest(**request)
+
+    result = automated_trading.run_cdc_strategy(
+        symbol=request_model.symbol, interval=request_model.interval
+    )
+
+    return {"datetime": datetime.now(), "action": result}
