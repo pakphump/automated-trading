@@ -4,7 +4,7 @@ steps:
     args:
       - functions
       - deploy
-      - start_cdc_trading
+      - cdc_strategy_handler
       - --source=.
       - --trigger-http
       - --runtime=python39
