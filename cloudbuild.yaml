@@ -9,6 +9,8 @@ steps:
       - --trigger-http
       - --runtime=python39
       - --allow-unauthenticated
+      - --region=asia-east1
+
 
 options:
   logging: CLOUD_LOGGING_ONLY
