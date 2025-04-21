@@ -19,11 +19,18 @@ class GetCurrentPositionModeRequest(BaseModel):
     timestamp: int
 
 
+class GetCurrentPositionOrderRequest(BaseModel):
+    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
+
+    recv_window: int = 5000
+    timestamp: int
+
+
 class PostChangePositionModeRequest(BaseModel):
     model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
 
     dual_side_position: bool
-    recv_window: int
+    recv_window: int = 5000
     timestamp: int
 
 
