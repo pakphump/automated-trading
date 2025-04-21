@@ -17,6 +17,11 @@ class GetCurrentPositionMode(BaseModel):
     url: str = f"{BINANCE_FUTURE_BASE_URL}/fapi/v1/positionSide/dual"
 
 
+class PostChangePositionMode(BaseModel):
+    method: str = "POST"
+    utl: str = f"{BINANCE_FUTURE_BASE_URL}/fapi/v1/positionSide/dual"
+
+
 class PostOrder(BaseModel):
     method: str = "POST"
     url: str = f"{BINANCE_FUTURE_BASE_URL}/fapi/v1/order"
