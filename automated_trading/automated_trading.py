@@ -24,6 +24,9 @@ class AutomatedTrading:
 
         cdc_action = process_cdc_strategy(kline_df)
 
+        print("Current Datetime", datetime.now())
+        print("CDC Action", cdc_action)
+
         # If cdc action in ["hold_long", "hold_short"]
         if cdc_action in ["hold_long", "hold_short"]:
 
@@ -49,15 +52,19 @@ class AutomatedTrading:
 
             if current_position is not None:
                 close_short_order(**order_params)
+                print(" - Close Short Order")
 
             open_long_order(**order_params)
+            print(" - Open Long Order")
 
         elif cdc_action == "open_short":
 
             if current_position is not None:
                 close_long_order(**order_params)
+                print(" - Close Long Order")
 
             open_short_order(**order_params)
+            print(" - Open Short Order")
 
         return CdcStrategyHandlerResponse(
             datetime=datetime.now(), action=cdc_action
