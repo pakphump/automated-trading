@@ -28,14 +28,14 @@ def cdc_strategy_handler(request: Request):
     print("----------------\n")
     time.sleep(1)
 
-    response = open_short_order(**order_params)
-    print("--- Open Short---")
+    response = close_long_order(**order_params)
+    print("--- Close Long---")
     print(response.json())
     print("----------------\n")
     time.sleep(1)
 
-    response = close_long_order(**order_params)
-    print("--- Close Long---")
+    response = open_short_order(**order_params)
+    print("--- Open Short---")
     print(response.json())
     print("----------------\n")
     time.sleep(1)
