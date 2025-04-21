@@ -12,7 +12,7 @@ def post_change_position_mode(api_key: str, secret_key: str, dual_side_position:
     url_n_method = PostChangePositionMode().model_dump(by_alias=True)
     payload = PostChangePositionModeRequest(
         dual_side_position=dual_side_position, timestamp=server_time
-    )
+    ).model_dump(by_alias=True)
 
     # Add signature
     payload = add_signature_in_payload(secret_key, payload)
@@ -43,7 +43,7 @@ def post_order(
         type=type,
         quantity=quantity,
         timestamp=server_time,
-    )
+    ).model_dump(by_alias=True)
 
     # Add signature
     payload = add_signature_in_payload(secret_key, payload)
