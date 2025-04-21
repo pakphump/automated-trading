@@ -4,11 +4,14 @@ steps:
     args:
       - functions
       - deploy
-      - start_cdc_trading
+      - cdc_strategy_handler
       - --source=.
       - --trigger-http
       - --runtime=python39
       - --allow-unauthenticated
+      - --region=europe-central2
+      - --vpc-connector=vpceuropeconnector
+      - --egress-settings=all
 
 options:
   logging: CLOUD_LOGGING_ONLY
