@@ -11,3 +11,10 @@ def create_signature(secret_key: str, payload: dict):
     ).hexdigest()
 
     return signature
+
+
+def add_signature_in_payload(secret_key: str, payload: dict):
+    signature = create_signature(secret_key, payload)
+    payload["signature"] = signature
+
+    return payload
