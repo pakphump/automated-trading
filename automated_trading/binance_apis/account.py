@@ -16,7 +16,7 @@ def get_current_position_mode(api_key: str, secret_key: str) -> bool:
 
     # Add signature
     payload = add_signature_in_payload(secret_key, payload)
-    headers = {"X-MBX-APIKEY": api_key}
+    headers = BinanceHeader(x_mbx_apikey=api_key).model_dump(by_alias=True)
 
     response = requests.request(**url_n_method, params=payload, headers=headers)
     response.raise_for_status()
@@ -37,7 +37,7 @@ def get_current_position_orders(api_key: str, secret_key: str):
 
     # Add signature
     payload = add_signature_in_payload(secret_key, payload)
-    headers = {"X-MBX-APIKEY": api_key}
+    headers = BinanceHeader(x_mbx_apikey=api_key).model_dump(by_alias=True)
 
     response = requests.request(**url_n_method, params=payload, headers=headers)
     response.raise_for_status()

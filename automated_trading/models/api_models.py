@@ -1,5 +1,11 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, ConfigDict
 from automated_trading.constants import BINANCE_FUTURE_BASE_URL
+
+
+class BinanceHeader(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    x_mbx_apikey: str = Field(alias="X-MBX-APIKEY")
 
 
 class GetServerTime(BaseModel):
