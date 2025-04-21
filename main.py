@@ -22,12 +22,27 @@ def cdc_strategy_handler(request: Request):
     }
 
     # Open Long orders
-    open_long_order(**order_params)
+    response = open_long_order(**order_params)
+    print("--- Open Long---")
+    print(response.json())
+    print("----------------\n")
     time.sleep(1)
-    open_short_order(**order_params)
+
+    response = open_short_order(**order_params)
+    print("--- Open Short---")
+    print(response.json())
+    print("----------------\n")
     time.sleep(1)
-    close_long_order(**order_params)
+
+    response = close_long_order(**order_params)
+    print("--- Close Long---")
+    print(response.json())
+    print("----------------\n")
     time.sleep(1)
-    close_short_order(**order_params)
+
+    response = close_short_order(**order_params)
+    print("--- Close Short---")
+    print(response.json())
+    print("----------------\n")
 
     return order_params
