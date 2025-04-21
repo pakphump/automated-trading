@@ -47,10 +47,6 @@ def post_order(
 
     # Add signature
     payload = add_signature_in_payload(secret_key, payload)
-
-    print("- Payload")
-    print(payload)
-
     headers = {"X-MBX-APIKEY": api_key}
 
     response = requests.request(**url_n_method, params=payload, headers=headers)
