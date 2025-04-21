@@ -44,7 +44,6 @@ class PostOrderRequest(BaseModel):
     quantity: float
     recv_window: int = 5000
     timestamp: float
-    signature: str
 
 
 class CdcStrategyHandlerRequest(BaseModel):
