@@ -89,7 +89,7 @@ def close_long_order(symbol: str, quantity: float, api_key: str, secret_key: str
 def open_short_order(symbol: str, quantity: float, api_key: str, secret_key: str):
     response = post_order(
         symbol=symbol,
-        side="BUY",
+        side="SELL",
         position_side="SHORT",
         type="MARKET",
         quantity=quantity,
@@ -103,7 +103,7 @@ def open_short_order(symbol: str, quantity: float, api_key: str, secret_key: str
 def close_short_order(symbol: str, quantity: float, api_key: str, secret_key: str):
     response = post_order(
         symbol=symbol,
-        side="SELL",
+        side="BUY",
         position_side="SHORT",
         type="MARKET",
         quantity=quantity,
