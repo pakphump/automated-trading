@@ -13,10 +13,10 @@ class AutomatedTrading:
         self, symbol: str, interval: str, quantity: float, api_key: str, secret_key: str
     ):
 
-        # Check position mode
-        current_position_model = get_current_position_mode(api_key, secret_key)
-        if current_position_model is False:
-            post_change_position_mode(api_key, secret_key, dual_side_position=True)
+        # # Check position mode
+        # current_position_model = get_current_position_mode(api_key, secret_key)
+        # if current_position_model is False:
+        #     post_change_position_mode(api_key, secret_key, dual_side_position=True)
 
         # Get Kline data
         kline_list = get_continuous_klines(symbol=symbol, interval=interval)
