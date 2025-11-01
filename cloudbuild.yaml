@@ -7,7 +7,7 @@ steps:
       - cdc_strategy_handler
       - --source=.
       - --trigger-http
-      - --runtime=python39
+      - --runtime=python312
       - --allow-unauthenticated
       - --region=europe-central2
       - --vpc-connector=vpceuropeconnector
