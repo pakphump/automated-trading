@@ -1,5 +1,5 @@
 from automated_trading import AutomatedTrading
-from automated_trading.binance_apis import *
+from automated_trading.exchanges.binance_apis import *
 import functions_framework
 from flask import Request
 
@@ -20,3 +20,9 @@ def cdc_strategy_handler(request: Request):
     )
 
     return response
+
+
+@functions_framework.http
+def automated_trading_handler(request: Request):
+
+    return {"status": 200, "msg": "very_good"}
