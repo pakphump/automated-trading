@@ -66,10 +66,9 @@ class BaseFutureApi:
         payload = {
             "method": method,
             "url": f"{KUCOIN_FUTURE_BASE_URI}{endpoint}",
-            "data": data,
+            "data": body,
             "headers": self._process_headers(
                 body=body.encode(), raw_url=endpoint, method=method
             ),
         }
-
         return payload
