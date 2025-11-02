@@ -6,7 +6,7 @@ class AccountApi(BaseFutureApi):
     def __init__(self, api_key, api_secret, api_passphrase):
         super().__init__(api_key, api_secret, api_passphrase)
 
-    async def get_account_funding(self, session, currency: str):
+    async def aget_account_funding(self, session, currency: str):
         model = _model.GetAccountFunding()
 
         payload = self.prepare_get_payload(
