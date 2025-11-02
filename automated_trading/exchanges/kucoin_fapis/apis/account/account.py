@@ -15,4 +15,7 @@ class AccountApi(BaseFutureApi):
             query_params={"currency": currency},
         )
         response = await session.request(**payload)
-        return response
+        response.raise_for_status()
+
+        result = await response.json()
+        return result["data"]
