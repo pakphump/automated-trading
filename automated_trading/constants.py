@@ -1,9 +1,18 @@
-from enum import StrEnum
+from enum import StrEnum, auto
 
 
 class ApiMethod(StrEnum):
     GET = "GET"
     POST = "POST"
+
+
+class PositionAction(StrEnum):
+    OPEN_LONG = auto()
+    OPEN_SHORT = auto()
+    HOLD_LONG = auto()
+    HOLD_SHORT = auto()
+    CLOSE_LONG = auto()
+    CLOSE_SHORT = auto()
 
 
 BINANCE_FUTURE_BASE_URL = "https://fapi.binance.com"
