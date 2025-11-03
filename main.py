@@ -26,7 +26,7 @@ from automated_trading.exchanges.kucoin_fapis import KucoinFutureApiManager
 
 @functions_framework.aio.http
 async def automated_trading_handler(request):
-    request_obj = request.json()
+    request_obj = await request.json()
 
     async with aiohttp.ClientSession() as session:
 
