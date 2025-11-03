@@ -1,6 +1,6 @@
-from automated_trading.exchanges.kucoin_fapis.apis.base_api import BaseFutureApi
 from aiohttp import ClientSession
-from . import _model
+from ._endpoints import OrderEndpoint
+from ._base_api import BaseFutureApi
 from typing import Literal
 
 
@@ -22,10 +22,11 @@ class OrderApi(BaseFutureApi):
         leverage: int = 125,
         is_test: bool = False,
     ):
-        if is_test:
-            model = _model.PostCreateOrderTest()
-        else:
-            model = _model.PostCreateOrder()
+        endpoint = (
+            OrderEndpoint.POST_CREATE_ORDER_TEST
+            if is_test
+            else OrderEndpoint.POST_CREATE_ORDER
+        )
 
         data = {
             "clientOid": client_id,
@@ -39,7 +40,7 @@ class OrderApi(BaseFutureApi):
             "marginMode": margin_model,
         }
 
-        payload = self.prepare_post_payload(endpoint=model.endpoint, data=data)
+        payload = self.prepare_post_payload(endpoint=endpoint, data=data)
         response = await session.request(**payload)
         response.raise_for_status()
 
@@ -62,7 +63,6 @@ class OrderApi(BaseFutureApi):
         stopPriceType: str = "TP",
         leverage: int = 125,
     ):
-        model = _model.PostCreateStOrder()
         data = {
             "clientOid": client_id,
             "side": side,
@@ -78,7 +78,9 @@ class OrderApi(BaseFutureApi):
             "stopPriceType": stopPriceType,
         }
 
-        payload = self.prepare_post_payload(endpoint=model.endpoint, data=data)
+        payload = self.prepare_post_payload(
+            endpoint=OrderEndpoint.POST_CREATE_ST_ORDER, data=data
+        )
         response = await session.request(**payload)
         response.raise_for_status()
 
@@ -93,7 +95,6 @@ class OrderApi(BaseFutureApi):
         side: Literal["buy", "sell"] = None,
         type: Literal["limit", "market"] = None,
     ):
-        model = _model.GetOrderList()
         query_params = {
             "symbol": symbol,
             "status": status,
@@ -104,7 +105,7 @@ class OrderApi(BaseFutureApi):
             query_params |= {"type": type}
 
         payload = self.prepare_get_payload(
-            endpoint=model.endpoint, query_params=query_params
+            endpoint=OrderEndpoint.GET_ORDER_LIST, query_params=query_params
         )
         response = await session.request(**payload)
         response.raise_for_status()
@@ -113,7 +114,6 @@ class OrderApi(BaseFutureApi):
         return result
 
     async def aclose_order(self, session: ClientSession, client_id: str, symbol: str):
-        model = _model.PostCreateOrder()
 
         data = {
             "clientOid": client_id,
@@ -123,7 +123,9 @@ class OrderApi(BaseFutureApi):
             "marginMode": "CROSS",
         }
 
-        payload = self.prepare_post_payload(endpoint=model.endpoint, data=data)
+        payload = self.prepare_post_payload(
+            endpoint=OrderEndpoint.POST_CREATE_ORDER, data=data
+        )
         response = await session.request(**payload)
         response.raise_for_status()
 

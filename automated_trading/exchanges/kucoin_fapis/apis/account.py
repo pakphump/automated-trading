@@ -1,6 +1,6 @@
-from automated_trading.exchanges.kucoin_fapis.apis.base_api import BaseFutureApi
+from ._base_api import BaseFutureApi
+from ._endpoints import AccountEndpoint
 from aiohttp import ClientSession
-from . import _model
 
 
 class AccountApi(BaseFutureApi):
@@ -8,10 +8,9 @@ class AccountApi(BaseFutureApi):
         super().__init__(api_key, api_secret, api_passphrase)
 
     async def aget_account_funding(self, session: ClientSession, currency: str):
-        model = _model.GetAccountFunding()
 
         payload = self.prepare_get_payload(
-            endpoint=model.endpoint,
+            endpoint=AccountEndpoint.GET_ACCOUNT_FUNDING,
             query_params={"currency": currency},
         )
         response = await session.request(**payload)

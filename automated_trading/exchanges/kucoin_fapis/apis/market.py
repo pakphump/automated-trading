@@ -1,10 +1,10 @@
-from automated_trading.exchanges.kucoin_fapis.apis.base_api import BaseFutureApi
 from automated_trading.constants import KUCOIN_KLINE_COLUMNS, KLINE_FLOAT_COLUMNS
 from automated_trading import utils
 from aiohttp import ClientSession
 import asyncio
 import pandas as pd
-from . import _model
+from ._endpoints import MarketEndpoint
+from ._base_api import BaseFutureApi
 
 
 class MarketApi(BaseFutureApi):
@@ -20,10 +20,9 @@ class MarketApi(BaseFutureApi):
         return df
 
     async def aget_symbol_info(self, session: ClientSession, symbol: str):
-        model = _model.GetSymbol()
 
         payload = self.prepare_get_payload(
-            endpoint=model.endpoint.format(symbol=symbol),
+            endpoint=MarketEndpoint.GET_SYMBOL.format(symbol=symbol),
             query_params=b"",
         )
         response = await session.request(**payload)
@@ -33,10 +32,9 @@ class MarketApi(BaseFutureApi):
         return result["data"]
 
     async def aget_all_symbol_info(self, session: ClientSession):
-        model = _model.GetAllSymbolActive()
 
         payload = self.prepare_get_payload(
-            endpoint=model.endpoint,
+            endpoint=MarketEndpoint.GET_ALL_SYMBOL_ACTIVE,
             query_params=b"",
         )
         response = await session.request(**payload)
@@ -48,7 +46,6 @@ class MarketApi(BaseFutureApi):
     async def _aget_klines(
         self, session: ClientSession, symbol: str, timeframe: int, start: int, end: int
     ):
-        model = _model.GetKlines()
         query_params = {
             "symbol": symbol,
             "granularity": timeframe,
@@ -56,8 +53,7 @@ class MarketApi(BaseFutureApi):
             "to": end,
         }
         payload = self.prepare_get_payload(
-            endpoint=model.endpoint,
-            query_params=query_params,
+            endpoint=MarketEndpoint.GET_KLINES, query_params=query_params
         )
         response = await session.request(**payload)
         response.raise_for_status()
