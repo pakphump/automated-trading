@@ -1,7 +1,8 @@
-from automated_trading.binance_apis import *
+from automated_trading.exchanges.binance_apis import *
 from automated_trading.models import *
 from automated_trading.preprocessor import preprocess_klines_data
-from automated_trading.strategies import process_cdc_strategy
+
+# from automated_trading.strategies import process_cdc_strategy
 from datetime import datetime
 
 
