@@ -1,0 +1,1 @@
+from .kucoin_fapis import KucoinFutureApiManager

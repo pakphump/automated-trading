@@ -1,9 +1,17 @@
 from . import _indicators
 from automated_trading.constants import PositionAction
 import pandas as pd
+from typing import Literal
 
 
-def apply_cdc_strategy(df: pd.DataFrame):
+def apply_cdc_strategy(
+    df: pd.DataFrame,
+) -> Literal[
+    PositionAction.OPEN_LONG,
+    PositionAction.OPEN_SHORT,
+    PositionAction.HOLD_LONG,
+    PositionAction.HOLD_SHORT,
+]:
 
     def _apply_cdc_logic(fast_cross, fast_cross_shift):
         if fast_cross != fast_cross_shift:
