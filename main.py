@@ -1,6 +1,6 @@
 # from automated_trading import AutomatedTrading
 # from automated_trading.exchanges.binance_apis import *
-import functions_framework
+import functions_framework.aio
 from flask import Request
 import aiohttp
 from automated_trading.exchanges.kucoin_fapis import KucoinFutureApiManager
@@ -24,7 +24,7 @@ from automated_trading.exchanges.kucoin_fapis import KucoinFutureApiManager
 # return response
 
 
-@functions_framework.http
+@functions_framework.aio.http
 async def automated_trading_handler(request: Request):
     async with aiohttp.ClientSession() as session:
 
