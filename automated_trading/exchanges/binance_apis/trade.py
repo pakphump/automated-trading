@@ -1,4 +1,4 @@
-from automated_trading.binance_apis.market_data import get_server_time
+from automated_trading.exchanges.binance_apis.market_data import get_server_time
 from automated_trading.models import *
 from automated_trading.utils import add_signature_in_payload
 from typing import Literal
