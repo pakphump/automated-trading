@@ -2,6 +2,8 @@
 # from automated_trading.exchanges.binance_apis import *
 import functions_framework
 from flask import Request
+import aiohttp
+from automated_trading.exchanges.kucoin_fapis import KucoinFutureApiManager
 
 # automated_trading = AutomatedTrading()
 
@@ -23,6 +25,18 @@ from flask import Request
 
 
 @functions_framework.http
-def automated_trading_handler(request: Request):
+async def automated_trading_handler(request: Request):
+    async with aiohttp.ClientSession() as session:
 
-    return {"status": 200, "msg": "very_good"}
+        for bot_obj in request["bot_list"]:
+
+            kucoin_api_manager = KucoinFutureApiManager(
+                api_key=bot_obj["api_key"],
+                api_secret=bot_obj["api_secret"],
+                api_passphrase=bot_obj["api_passphrase"],
+            )
+
+            account = await kucoin_api_manager.aget_account_funding(session, "USDT")
+
+    print(account)
+    return {"account": account}
