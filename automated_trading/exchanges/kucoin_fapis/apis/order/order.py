@@ -1,5 +1,4 @@
 from automated_trading.exchanges.kucoin_fapis.apis.base_api import BaseFutureApi
-from automated_trading.utils import generate_uuid
 from aiohttp import ClientSession
 from . import _model
 from typing import Literal
