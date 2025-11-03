@@ -39,4 +39,4 @@ async def automated_trading_handler(request: Request):
             account = await kucoin_api_manager.aget_account_funding(session, "USDT")
 
     print(account)
-    return {"account": account}
+    return {"status": 200}
