@@ -2,6 +2,8 @@ from urllib.parse import urlencode
 import hashlib
 import hmac
 import datetime
+import uuid
+from typing import List, Tuple
 
 
 def create_signature(secret_key: str, payload: dict):
@@ -29,9 +31,6 @@ def calculate_start_klines(n_row: int, timeframe: int, end: int):
     interval_ms = timeframe * 60 * 1000
     start = end - (n_row * interval_ms)
     return start
-
-
-from typing import List, Tuple
 
 
 def split_klines_requests(
@@ -64,3 +63,7 @@ def split_klines_requests(
 
     # Requests are built from newest chunk backward, so reverse to oldest->newest order
     return list(reversed(requests))
+
+
+def generate_uuid():
+    return str(uuid.uuid4())
