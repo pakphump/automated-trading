@@ -1,4 +1,4 @@
-from automated_trading.models import PostMethodBaseModel
+from automated_trading.models import PostMethodBaseModel, GetMethodBaseModel
 
 
 class PostCreateOrder(PostMethodBaseModel):
@@ -7,3 +7,11 @@ class PostCreateOrder(PostMethodBaseModel):
 
 class PostCreateOrderTest(PostMethodBaseModel):
     endpoint: str = "/api/v1/orders/test"
+
+
+class PostCreateStOrder(PostMethodBaseModel):
+    endpoint: str = "/api/v1/st-orders"
+
+
+class GetOrderList(GetMethodBaseModel):
+    endpoint: str = "/api/v1/orders"
