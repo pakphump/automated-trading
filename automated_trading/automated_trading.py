@@ -30,8 +30,8 @@ class AutomatedTrading:
             end=utils.get_current_utc_timestamp_ms(),
         )
 
-        action = apply_cdc_strategy(kline_df)
-        return action
+        cdc_action = apply_cdc_strategy(kline_df)
+        return cdc_action
 
 
 # class AutomatedTrading:
