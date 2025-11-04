@@ -23,7 +23,7 @@ class TurtleBotParams(BaseModel):
 
 class Bot(BaseModel):
     api_config: ApiConfig
-    bot_params: Union[CdcBotParams, TurtleBotParams] = Field(discriminator="type")
+    bot_params: Union[CdcBotParams, TurtleBotParams] = Field(discriminator="bot_type")
 
 
 class AutomatedTradingRequest(BaseModel):
