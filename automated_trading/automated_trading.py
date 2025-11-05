@@ -1,6 +1,7 @@
 import aiohttp
 from automated_trading.exchanges import KucoinFutureApiManager
 from automated_trading.strategies import apply_cdc_strategy
+from automated_trading.constants import PositionAction, CDC_STRATEGY_RESULT
 from typing import Literal
 from automated_trading import utils
 
@@ -19,6 +20,8 @@ class AutomatedTrading:
         if exchange != "kucoin":
             raise ValueError(f"CDC Strategy Not support {exchange} exchange")
 
+        client_id = f"cdc_strategy_{symbol}"
+        leverage = kw.get("leverage", 125)
         kucoin_manager = KucoinFutureApiManager(**api_config)
 
         # Get Kline
@@ -31,70 +34,45 @@ class AutomatedTrading:
         )
 
         cdc_action = apply_cdc_strategy(kline_df)
-        return cdc_action
 
+        # If Hold Action
+        if cdc_action in [
+            PositionAction.HOLD_LONG.value,
+            PositionAction.HOLD_SHORT.value,
+        ]:
+            return CDC_STRATEGY_RESULT.format(symbol=symbol, action=cdc_action)
 
-# class AutomatedTrading:
-#     def __init__(self):
-#         pass
+        # Get Current Position
+        position_list = await kucoin_manager.aget_position_lists(session=session)
+        if position_list:
+            # Close Current Position
+            closed_position = await kucoin_manager.apost_close_order(
+                session=session, client_id=client_id, symbol=symbol
+            )
+            print("closed position", closed_position)
 
-#     def run_cdc_strategy(
-#         self, symbol: str, interval: str, quantity: float, api_key: str, secret_key: str
-#     ):
+        if cdc_action == PositionAction.OPEN_LONG.value:
+            opened_position = await kucoin_manager.aplace_order(
+                session=session,
+                client_id=client_id,
+                side="buy",
+                type="market",
+                qty=qty,
+                leverage=leverage,
+            )
 
-#         # # Check position mode
-#         # current_position_model = get_current_position_mode(api_key, secret_key)
-#         # if current_position_model is False:
-#         #     post_change_position_mode(api_key, secret_key, dual_side_position=True)
+        elif cdc_action == PositionAction.OPEN_SHORT.value:
+            opened_position = await kucoin_manager.aplace_order(
+                session=session,
+                client_id=client_id,
+                side="sell",
+                type="market",
+                qty=qty,
+                leverage=leverage,
+            )
+        else:
+            raise ValueError(f"Error Not Support {cdc_action} action")
 
-#         # Get Kline data
-#         kline_list = get_continuous_klines(symbol=symbol, interval=interval)
-#         kline_df = preprocess_klines_data(kline_list)
+        print("opened position", opened_position)
 
-#         cdc_action = process_cdc_strategy(kline_df)
-
-#         print("Current Datetime", datetime.now())
-#         print("CDC Action", cdc_action)
-
-#         # If cdc action in ["hold_long", "hold_short"]
-#         if cdc_action in ["hold_long", "hold_short"]:
-
-#             response = CdcStrategyHandlerResponse(
-#                 datetime=datetime.now(), action=cdc_action
-#             )
-
-#             return response.model_dump()
-
-#         # Get current position
-#         current_position = get_current_position_order_by_symbol(
-#             symbol=symbol, api_key=api_key, secret_key=secret_key
-#         )
-
-#         order_params = {
-#             "symbol": symbol,
-#             "quantity": quantity,
-#             "api_key": api_key,
-#             "secret_key": secret_key,
-#         }
-
-#         if cdc_action == "open_long":
-
-#             if current_position is not None:
-#                 close_short_order(**order_params)
-#                 print(" - Close Short Order")
-
-#             open_long_order(**order_params)
-#             print(" - Open Long Order")
-
-#         elif cdc_action == "open_short":
-
-#             if current_position is not None:
-#                 close_long_order(**order_params)
-#                 print(" - Close Long Order")
-
-#             open_short_order(**order_params)
-#             print(" - Open Short Order")
-
-#         return CdcStrategyHandlerResponse(
-#             datetime=datetime.now(), action=cdc_action
-#         ).model_dump()
+        return CDC_STRATEGY_RESULT.format(symbol=symbol, action=cdc_action)

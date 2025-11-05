@@ -15,6 +15,9 @@ class PositionAction(StrEnum):
     CLOSE_SHORT = auto()
 
 
+CDC_STRATEGY_RESULT = "CDC Strategy: {symbol} {action}"
+
+
 BINANCE_FUTURE_BASE_URL = "https://fapi.binance.com"
 KUCOIN_FUTURE_BASE_URI = "https://api-futures.kucoin.com"
 KUCOIN_KLINE_COLUMNS = ["time", "open", "high", "low", "close", "lots", "volume"]
