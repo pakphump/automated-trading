@@ -111,9 +111,11 @@ class OrderApi(BaseFutureApi):
         response.raise_for_status()
 
         result = await response.json()
-        return result
+        return result["data"]
 
-    async def aclose_order(self, session: ClientSession, client_id: str, symbol: str):
+    async def apost_close_order(
+        self, session: ClientSession, client_id: str, symbol: str
+    ):
 
         data = {
             "clientOid": client_id,
