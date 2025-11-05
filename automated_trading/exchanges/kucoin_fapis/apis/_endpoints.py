@@ -13,3 +13,7 @@ class OrderEndpoint:
     POST_CREATE_ORDER_TEST = "/api/v1/orders/test"
     POST_CREATE_ST_ORDER = "/api/v1/st-orders"
     GET_ORDER_LIST = "/api/v1/orders"
+
+
+class PositionEndpoint:
+    GET_POSITION_LIST = "/api/v1/positions"
