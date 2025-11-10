@@ -55,6 +55,7 @@ class AutomatedTrading:
             opened_position = await kucoin_manager.aplace_order(
                 session=session,
                 client_id=client_id,
+                symbol=symbol,
                 side="buy",
                 type="market",
                 qty=qty,
@@ -65,6 +66,7 @@ class AutomatedTrading:
             opened_position = await kucoin_manager.aplace_order(
                 session=session,
                 client_id=client_id,
+                symbol=symbol,
                 side="sell",
                 type="market",
                 qty=qty,
