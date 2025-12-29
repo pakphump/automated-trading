@@ -69,6 +69,9 @@ class AutomatedTrading:
                 capital, risk_pct, current_price, stoploss_price, coin_multiplier
             )
 
+            print("qty_size", qty_size)
+            print("SL price", stoploss_price)
+
             opened_position = await kucoin_manager.aplace_st_order(
                 session=session,
                 client_id=client_id,
@@ -85,6 +88,9 @@ class AutomatedTrading:
             qty_size = utils.calculate_qty_size(
                 capital, risk_pct, current_price, stoploss_price, coin_multiplier
             )
+
+            print("qty_size", qty_size)
+            print("SL price", stoploss_price)
 
             opened_position = await kucoin_manager.aplace_st_order(
                 session=session,
