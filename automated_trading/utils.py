@@ -4,6 +4,7 @@ import hmac
 import datetime
 import uuid
 from typing import List, Tuple
+import math
 
 
 def create_signature(secret_key: str, payload: dict):
@@ -67,3 +68,20 @@ def split_klines_requests(
 
 def generate_uuid():
     return str(uuid.uuid4())
+
+
+def calculate_qty_size(
+    capital: float,
+    risk_pct: float,
+    current_price: float,
+    stoploss_price: float,
+    coin_multiplier: float,
+):
+    risk_amount = capital * (risk_pct / 100)
+    stoploss_range = abs(current_price - stoploss_price)
+
+    qty = risk_amount / stoploss_range
+
+    adj_qty = math.floor(qty / coin_multiplier) * coin_multiplier
+
+    return adj_qty

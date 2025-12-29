@@ -4,9 +4,7 @@ import pandas as pd
 from typing import Literal
 
 
-def apply_cdc_strategy(
-    df: pd.DataFrame,
-) -> Literal[
+def apply_cdc_strategy(df: pd.DataFrame, atr_multiplier: float) -> Literal[
     PositionAction.OPEN_LONG,
     PositionAction.OPEN_SHORT,
     PositionAction.HOLD_LONG,
@@ -29,6 +27,8 @@ def apply_cdc_strategy(
     df.ta.study(_indicators.cdc_indicators)
     df["is_fast_cross"] = df["EMA_12"] > df["EMA_26"]
     df["is_shifted_fast_cross"] = df["is_fast_cross"].shift(1)
+    df["atr_upper"] = df["high"] + df["ATRr_14"] * atr_multiplier
+    df["atr_lower"] = df["low"] + df["ATRr_14"] * atr_multiplier
 
     df["action"] = df.apply(
         lambda row: (
@@ -40,4 +40,13 @@ def apply_cdc_strategy(
     )
 
     action = df.loc[df.shape[0] - 2, "action"]
-    return action
+
+    current_price = float(df.loc[df.shape[0] - 1, "close"])
+    stoploss_price = None
+
+    if action == "open_long":
+        stoploss_price = df.loc[df.shape[0] - 1, "atr_lower"]
+    elif action == "open_short":
+        stoploss_price = df.loc[df.shape[0] - 1, "atr_upper"]
+
+    return action, current_price, stoploss_price

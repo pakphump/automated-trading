@@ -13,8 +13,9 @@ class CdcBotParams(BaseModel):
     exchange: Literal["kucoin"]
     symbol: str
     timeframe: int
-    qty: str
     leverage: int
+    atr_multiplier: float
+    risk_pct: float
 
 
 class TurtleBotParams(BaseModel):

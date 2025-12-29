@@ -14,7 +14,8 @@ class AutomatedTrading:
         exchange: Literal["kucoin"],
         symbol: str,
         timeframe: int,
-        qty: str,
+        atr_multiplier: float,
+        risk_pct: float,
         **kw,
     ):
         if exchange != "kucoin":
@@ -33,7 +34,10 @@ class AutomatedTrading:
             end=utils.get_current_utc_timestamp_ms(),
         )
 
-        cdc_action = apply_cdc_strategy(kline_df)
+        cdc_action, current_price, stoploss_price = apply_cdc_strategy(
+            kline_df,
+            atr_multiplier,
+        )
 
         # If Hold Action
         if cdc_action in [
@@ -51,26 +55,46 @@ class AutomatedTrading:
             )
             print("closed position", closed_position)
 
+        # Get current capital
+        capital = await kucoin_manager.aget_account_funding(session, "USDT")
+        capital = capital["accountEquity"]
+
+        # Get coin_detail
+        coin_detail = await kucoin_manager.aget_symbol_info(session, symbol)
+        coin_multiplier = coin_detail["multiplier"]
+
         if cdc_action == PositionAction.OPEN_LONG.value:
-            opened_position = await kucoin_manager.aplace_order(
+
+            qty_size = utils.calculate_qty_size(
+                capital, risk_pct, current_price, stoploss_price, coin_multiplier
+            )
+
+            opened_position = await kucoin_manager.aplace_st_order(
                 session=session,
                 client_id=client_id,
                 symbol=symbol,
                 side="buy",
                 type="market",
-                qty=qty,
+                qty=qty_size,
                 leverage=leverage,
+                trigger_stop_down_price=str(stoploss_price),
             )
 
         elif cdc_action == PositionAction.OPEN_SHORT.value:
-            opened_position = await kucoin_manager.aplace_order(
+
+            qty_size = utils.calculate_qty_size(
+                capital, risk_pct, current_price, stoploss_price, coin_multiplier
+            )
+
+            opened_position = await kucoin_manager.aplace_st_order(
                 session=session,
                 client_id=client_id,
                 symbol=symbol,
                 side="sell",
                 type="market",
-                qty=qty,
+                qty=qty_size,
                 leverage=leverage,
+                trigger_stop_up_price=str(stoploss_price),
             )
         else:
             raise ValueError(f"Error Not Support {cdc_action} action")

@@ -7,5 +7,6 @@ cdc_indicators = ta.Study(
     ta=[
         {"kind": "ema", "length": 12},
         {"kind": "ema", "length": 26},
+        {"kind": "atr"},
     ],
 )
