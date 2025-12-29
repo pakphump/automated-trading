@@ -28,7 +28,7 @@ def apply_cdc_strategy(df: pd.DataFrame, atr_multiplier: float) -> Literal[
     df["is_fast_cross"] = df["EMA_12"] > df["EMA_26"]
     df["is_shifted_fast_cross"] = df["is_fast_cross"].shift(1)
     df["atr_upper"] = df["high"] + df["ATRr_14"] * atr_multiplier
-    df["atr_lower"] = df["low"] + df["ATRr_14"] * atr_multiplier
+    df["atr_lower"] = df["low"] - df["ATRr_14"] * atr_multiplier
 
     df["action"] = df.apply(
         lambda row: (
