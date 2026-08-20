@@ -45,8 +45,8 @@ def apply_cdc_strategy(df: pd.DataFrame, atr_multiplier: float) -> Literal[
     stoploss_price = None
 
     if action == "open_long":
-        stoploss_price = df.loc[df.shape[0] - 1, "atr_lower"]
+        stoploss_price = df.loc[df.shape[0] - 2, "atr_lower"]
     elif action == "open_short":
-        stoploss_price = df.loc[df.shape[0] - 1, "atr_upper"]
+        stoploss_price = df.loc[df.shape[0] - 2, "atr_upper"]
 
     return action, current_price, stoploss_price
